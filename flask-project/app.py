@@ -14,7 +14,7 @@ app.debug=True
 #config mysql
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'r41v3x21'
+app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'amp'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
