@@ -5,6 +5,7 @@ from flask_mysqldb import MySQL
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from passlib.hash import sha256_crypt
 from functools import wraps
+import MySQLdb
 
 
 
@@ -14,7 +15,7 @@ app.debug=True
 #config mysql
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_PASSWORD'] = 'r41v3x21'
 app.config['MYSQL_DB'] = 'amp'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
@@ -26,19 +27,19 @@ mysql = MySQL(app)
 
 @app.route('/')
 def index():
-    return render_template('home.html')
+    return render_template('home.html', active='index')
 
 @app.route('/about')
 def about():
-    return render_template('about.html')
+    return render_template('about.html', active='about')
 
 @app.route('/members')
 def members():
-    return render_template('members.html')
+    return render_template('members.html', active='members')
 
 @app.route('/articles')
 def articles():
-    return render_template('articles.html')
+    return render_template('articles.html', active='articles')
 
 #check if user logged in
 def is_logged_in(f):
@@ -60,15 +61,15 @@ def dashboard():
 
 
 class RegisterForm(Form):
-    username = StringField('Username', [validators.Length(min=1, max=50)])
-    firstname = StringField('First Name', [validators.Length(min=1, max=50)])
-    lastname = StringField('Last Name', [validators.Length(min=1, max=50)])
-    email = StringField('Email', [validators.Length(min=1, max=50)])
-    password = PasswordField('Password', [
+    username = StringField('', [validators.Length(min=1, max=50)], render_kw={"placeholder": "Username"})
+    firstname = StringField('', [validators.Length(min=1, max=50)], render_kw={"placeholder": "First Name"})
+    lastname = StringField('', [validators.Length(min=1, max=50)], render_kw={"placeholder": "Last Name"})
+    email = StringField('', [validators.Length(min=1, max=50)], render_kw={"placeholder": "Email"})
+    password = PasswordField('', [
         validators.DataRequired(),
         validators.EqualTo('confirm', message='Passwords do not match')
-    ])
-    confirm = PasswordField('Confirm Password')
+    ], render_kw={"placeholder": "Password"})
+    confirm = PasswordField('', render_kw={"placeholder": "Confirm Password"})
 
 @app.route('/register', methods = ['GET', 'POST'])
 def register():
@@ -82,9 +83,13 @@ def register():
 
         #create cursor
         cur = mysql.connection.cursor()
-
-        cur.execute("INSERT INTO users(username, password, email, firstname, lastname) VALUES (%s, %s, %s, %s, %s)", (username, password, email, firstname, lastname))
-
+        try:
+            cur.execute("INSERT INTO users(username, password, email, firstname, lastname) VALUES (%s, %s, %s, %s, %s)", (username, password, email, firstname, lastname))
+        except mysql.connection.IntegrityError as err:
+            error = 'Username already taken'
+            flash('Username already taken', 'warning')
+            return redirect(url_for('register'))
+            cur.close()
         #commit to DB
         mysql.connection.commit()
 
@@ -93,9 +98,9 @@ def register():
 
         flash('You are now registered and can log in', 'success')
 
-        return redirect(url_for('index'))
+        return redirect(url_for('login'))
     return render_template('register.html', form=form)
-
+        
 
 
 
@@ -138,6 +143,7 @@ def login():
             return render_template('login.html', error=error)
 
     return render_template('login.html')
+
 
 
 

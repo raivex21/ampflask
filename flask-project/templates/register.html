@@ -1,34 +1,67 @@
-{% extends 'layout.html' %}
 
-
-{%block body%}
-
-
-	<h1>Register</h1>
-	{% from "includes/_formhelpers.html" import render_field %}
-	<form method="POST" action="">
-		<div class="form-group">
-			{{render_field(form.username, class_="form-control")}}
+<!DOCTYPE html>
+<html>
+<head>
+<title>Creative Colorlib SignUp Form</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- Custom Theme files -->
+<link href="static/css/style.css" rel="stylesheet" type="text/css" media="all" />
+<!-- //Custom Theme files -->
+<!-- web font -->
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+ <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+ <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+ </head>
+<link href="//fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i" rel="stylesheet">
+<!-- //web font -->
+</head>
+<body>
+	<!-- main -->
+	{% include 'includes/_navbar.html' %}
+	<div class="main-w3layouts wrapper">
+		{% include 'includes/_messages.html' %}
+		<h1>AMP Registration Form</h1>
+		{% from "includes/_formhelpers.html" import render_field %}
+		<div class="main-agileinfo">
+			<div class="agileits-top">
+				<form action="" method="POST">
+					<div class="form-group">
+						{{render_field(form.username, class_="form-control")}}
+					</div>
+					<div class="form-group">
+						{{render_field(form.lastname, class_="form-control")}}
+					</div>
+					<div class="form-group">
+						{{render_field(form.firstname, class_="form-control")}}
+					</div>
+					<div class="form-group">
+						{{render_field(form.email, class_="form-control")}}
+					</div>
+					<div class="form-group">
+						{{render_field(form.password, class_="form-control")}}
+					</div>
+					<div class="form-group">
+						{{render_field(form.confirm, class_="form-control")}}
+					<input type="submit" value="SIGNUP">
+				</form>
+				<p>Do you have an Account? <a href="{{ url_for('login') }}"> Login Now!</a></p>
+			</div>
 		</div>
-		<div class="form-group">
-			{{render_field(form.firstname, class_="form-control")}}
-		</div>
-		<div class="form-group">
-			{{render_field(form.lastname, class_="form-control")}}
-		</div>
-		<div class="form-group">
-			{{render_field(form.email, class_="form-control")}}
-		</div>
-		<div class="form-group">
-			{{render_field(form.password, class_="form-control")}}
-		</div>
-		<div class="form-group">
-			{{render_field(form.confirm, class_="form-control")}}
-		</div>
-		<p><input type="submit" class="btn btn-primary" value="Submit"></p>
-	</form>
-
-
-
-
-{% endblock %}
+		<ul class="colorlib-bubbles">
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	</div>
+	<!-- //main -->
+</body>
+</html>

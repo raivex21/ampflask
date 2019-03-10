@@ -6,19 +6,20 @@
 
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="/">Home</a>
+          <li class="nav-item">
+            <a class="nav-link {% if active=='index' %}active{%endif %}" href="/">Home</a>
+          </li>
+          {% if session.logged_in %}
+          <li class="nav-item">
+            <a class="nav-link {% if active=='members' %}active{%endif %}" href="/members">Members</a>
+          </li>
+          {% endif %}
+          <li class="nav-item">
+            <a class="nav-link {% if active=='articles' %}active{%endif %}" href="/articles">Articles</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/members">Members</a>
+            <a class="nav-link {% if active=='about' %}active{%endif %}" href="/about">About</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/about">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/articles">Articles</a>
-          </li>
-
         </ul>
         <ul class="navbar-nav navbar-right">
           {% if session.logged_in %}
